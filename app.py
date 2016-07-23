@@ -6,6 +6,11 @@ import base64
 from bottle import route, get, post, put, delete
 from bottle import request, response, error
 from bottle import run, abort
+from bottle import static_file
+
+@route('/static/<filepath:path>')
+def server_static(filepath):
+        return static_file(filepath, root='public')
 
 @route('/')
 def login():
