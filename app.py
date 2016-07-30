@@ -6,6 +6,7 @@ import base64
 from bottle import route, get, post, put, delete
 from bottle import request, response, error
 from bottle import run, abort
+from bottle import redirect
 from bottle import static_file
 
 from jinja2 import Environment, FileSystemLoader
@@ -23,8 +24,9 @@ def a_html():
 
 @route('/dashboard')
 def show_dashboard():
-	template = env.get_template('dashboard.html')
-	return template.render()	
+    return 'haha'
+	# template = env.get_template('dashboard.html')
+	# return template.render()	
 
 @route('/login')
 @route('/')
@@ -32,5 +34,11 @@ def login():
     template = env.get_template('login.html')
     return template.render()
 
+@post('/login.do')
+def do_login():
+    username = request.forms['username']
+    password = request.forms['password']
+    redirect('/dashboard')
+
 if __name__ == '__main__':
-    run(host='localhost', port=3000, debug=True)
+    run(host='localhost', port=5000, debug=True)
