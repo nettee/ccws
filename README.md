@@ -2,8 +2,14 @@
 
 ### Setup
 
+Activiate virtual environment
+
+```Bash
+source venv/bin/activiate
+```
+
 ```Shell
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ```Shell

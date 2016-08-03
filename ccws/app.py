@@ -31,7 +31,8 @@ def do_login():
 
 @route('/dashboard')
 def show_dashboard():
-    return 'This page is still under development'
+    template = env.get_template('dashboard.html')
+    return template.render()
 
 if __name__ == '__main__':
     run(host='localhost', port=5000, debug=True)
