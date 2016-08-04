@@ -11,6 +11,8 @@ from bottle import run
 
 from jinja2 import Environment, FileSystemLoader
 
+from model import users
+
 env = Environment(loader=FileSystemLoader('ccws/views'))
 
 @route('/static/<filepath:path>')
