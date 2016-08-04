@@ -1,0 +1,31 @@
+{% extends "dashboard.html" %}
+{% block title %}用户管理{% endblock %}
+
+{% block content %}
+<h2 class="sub-header">用户列表</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>级别</th>
+            <th>区域</th>
+            <th>描述</th>
+            <th>电话</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for _ in range(10) %}
+        <tr> 
+            <td>000</td>
+            <td>000</td>
+            <td>000</td>
+            <td>000</td>
+            <td>000</td>
+            <td>000</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+{% endblock %} 
