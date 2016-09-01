@@ -4,28 +4,62 @@
 {% block content %}
 <h2 class="sub-header">用户列表</h2>
 
+<div class="row">
+    <div class="col-md-2">
+        <button type="button" class="btn btn-success">新增用户</button>
+    </div>
+    <div class="col-md-4">
+        <div class="input-group">
+            <span class="input-group-addon">ID中包含</span>
+            <input v-model="filter_text" type="text" class="form-control">
+        </div>
+    </div>
+
+</div>
+
+<div class="row"><p></p></div>
+
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
-        <tr>
-            <th>ID</th>
-            <th>姓名</th>
-            <th>级别</th>
-            <th>区域</th>
-            <th>描述</th>
-            <th>电话</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for _ in range(10) %}
-        <tr> 
-            <td>000</td>
-            <td>000</td>
-            <td>000</td>
-            <td>000</td>
-            <td>000</td>
-            <td>000</td>
-        </tr>
-    {% endfor %}
-    </tbody>
+            <tr>
+                <th>ID</th>
+                <th>姓名</th>
+                <th>级别</th>
+                <th>区域</th>
+                <th>描述</th>
+                <th>电话</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in items | filterBy filter_text in 'id'">
+                <td>${ item.id }</td>
+                <td>${ item.name }</td>
+                <td>${ item.level }</td>
+                <td>${ item.region }</td>
+                <td>${ item.description }</td>
+                <td>${ item.phone }</td>
+            </tr>
+        </tbody>
+    </table>
+</div> 
+
+<script type="text/javascript">
+    new Vue({
+        el: '#dashboard',
+        data: {
+            filter_text: '',
+            items: [
+                {id : 'txp', name : '陶先平', level : 2, region : '西南', description : '后勤部部长', phone : '02523333333'},
+                {id : 'txq', name : '陶先平', level : 2, region : '西南', description : '后勤部部长', phone : '02523333333'},
+                {id : 'txr', name : '陶先平', level : 2, region : '西南', description : '后勤部部长', phone : '02523333333'},
+            ],
+        },
+        methods: {
+            
+        },
+    });
+
+</script>
+
 {% endblock %} 

@@ -2,5 +2,107 @@
 {% block title %}情报管理{% endblock %}
 
 {% block content %}
-<p>under development...</p>
+
+<h2 class="sub-header">情报列表</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span>${ filter_method }</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li v-for="fm in filter_methods" v-on:click="changeFilterMethod($index)">
+                        <a href="#">${ fm }</a>
+                    </li>
+                </ul>
+            </div><!-- /btn-group -->
+            <input v-model="filter_text" v-on:keyup="filterTextChange()" type="text" class="form-control" aria-label="...">
+        </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+
+<div class="row"><p></p></div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>时间</th>
+                <th>发布人</th>
+                <th>优先级</th>
+                <th>内容</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in items">
+                <td>${ item.updated_time }</td>
+                <td>${ item.publisher.name }</td>
+                <td>${ item.urgent ? '紧急' : '普通' }</td>
+                <td>${ item.text }</td>
+                <td>
+                    <div class="btn-toolbar" role="toolbar" aria-label="...">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-default"
+                                    onclick="defender.information('57907f6b9ac0052e25717296').view();">查看</button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button type="button" class="btn btn-danger"
+                                    onclick="defender.information('57907f6b9ac0052e25717296').remove();">删除</button>
+                        </div>
+                    </div>
+                </td
+            </tr>
+            <tr>
+                <td>${ filterd_items }</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    new Vue({
+        el: '#dashboard',
+        data: {
+            filter_methods: [
+                '发布人ID包含',
+                '内容包含',
+            ],
+            filter_method: '发布人ID包含',
+            filter_text: '',
+            items: [
+                {updated_time: '2016-08-01 11:07:39', publisher: {id: 'txp', name: '陶先平'}, urgent: false, text:'加强寝室建设'},
+                {updated_time: '2016-07-21 18:24:32', publisher: {id: 'yuy', name: '俞扬'}, urgent: false, text:'我喜欢吃可乐鸡翅'},
+                {updated_time: '2016-07-21 18:22:22', publisher: {id: 'yinyt', name: '尹一通'}, urgent: true, text:'我是尹一通，我今年将作为访问学者到卡耐基梅隆大学进行访问！'},
+                {updated_time: '2016-07-21 15:59:47', publisher: {id: 'txp', name: '陶先平'}, urgent: false, text:'下面是百度的宣传图册'},
+            ],
+        },
+        computed: {
+            filterd_items : function() {
+
+                if (filter_text.length == 0) {
+                    console.log('a');
+                    return 'a';
+                } else {
+                    console.log('b');
+                    return 'b';
+                }
+                return this.items;
+            },
+        },
+        methods: {
+            changeFilterMethod: function(index) {
+                this.filter_method = this.filter_methods[index];
+            },
+
+            filterTextChange: function() {
+                console.log(this.filter_text);
+            }
+        },
+    });
+</script>
+
 {% endblock %} 
