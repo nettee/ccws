@@ -19,7 +19,7 @@
                     </li>
                 </ul>
             </div><!-- /btn-group -->
-            <input v-model="filter_text" v-on:keyup="filterTextChange()" type="text" class="form-control" aria-label="...">
+            <input v-model="filter_text" type="text" class="form-control" aria-label="...">
         </div><!-- /input-group -->
     </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
@@ -38,7 +38,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in items">
+            <tr v-for="item in filterd_items" v-bind:class="{'danger' : item.urgent}">
                 <td>${ item.updated_time }</td>
                 <td>${ item.publisher.name }</td>
                 <td>${ item.urgent ? '紧急' : '普通' }</td>
@@ -46,32 +46,27 @@
                 <td>
                     <div class="btn-toolbar" role="toolbar" aria-label="...">
                         <div class="btn-group" role="group" aria-label="...">
-                            <button type="button" class="btn btn-default"
-                                    onclick="defender.information('57907f6b9ac0052e25717296').view();">查看</button>
+                            <button type="button" class="btn btn-default">查看</button>
                         </div>
                         <div class="btn-group" role="group" aria-label="...">
-                            <button type="button" class="btn btn-danger"
-                                    onclick="defender.information('57907f6b9ac0052e25717296').remove();">删除</button>
+                            <button type="button" class="btn btn-danger">删除</button>
                         </div>
                     </div>
                 </td
-            </tr>
-            <tr>
-                <td>${ filterd_items }</td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <script>
+    var PUBLISHER_ID_CONTAINS = '发布人ID包含';
+    var CONTENT_CONTAINS = '内容包含';
+
     new Vue({
         el: '#dashboard',
         data: {
-            filter_methods: [
-                '发布人ID包含',
-                '内容包含',
-            ],
-            filter_method: '发布人ID包含',
+            filter_methods: [PUBLISHER_ID_CONTAINS, CONTENT_CONTAINS],
+            filter_method: PUBLISHER_ID_CONTAINS,
             filter_text: '',
             items: [
                 {updated_time: '2016-08-01 11:07:39', publisher: {id: 'txp', name: '陶先平'}, urgent: false, text:'加强寝室建设'},
@@ -82,25 +77,29 @@
         },
         computed: {
             filterd_items : function() {
-
-                if (filter_text.length == 0) {
-                    console.log('a');
-                    return 'a';
+                var ft = this.filter_text;
+                if (ft.length === 0) {
+                    return this.items;
                 } else {
-                    console.log('b');
-                    return 'b';
+                    console.log(this.filter_method + ': ' + this.filter_text);
+                    if (this.filter_method == PUBLISHER_ID_CONTAINS) {
+                        return this.items.filter(function(item) {
+                            return item.publisher.id.match(ft);   
+                        });
+                    } else if (this.filter_method == CONTENT_CONTAINS) {
+                        return this.items.filter(function(item) {
+                            return item.text.match(ft);
+                        });
+                    } else {
+                        return this.items;
+                    }
                 }
-                return this.items;
             },
         },
         methods: {
             changeFilterMethod: function(index) {
                 this.filter_method = this.filter_methods[index];
             },
-
-            filterTextChange: function() {
-                console.log(this.filter_text);
-            }
         },
     });
 </script>
