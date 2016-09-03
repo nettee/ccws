@@ -31,6 +31,8 @@ def do_login():
     password = request.forms['password']
     redirect('/dashboard')
 
+subsystems = ('users', 'informations', 'documents', 'regions')
+
 dashboard_nav = (
     ('users', '用户管理'),
     ('informations', '情报管理'),
@@ -44,11 +46,22 @@ def show_dashboard():
 
 @route('/dashboard/<subsystem>')
 def show_dashboard_subsystem(subsystem):
-    if subsystem not in ('users', 'informations', 'documents', 'regions'):
+    if subsystem not in subsystems:
         abort(404)
     template_file = '{}.html'.format(subsystem)
     template = env.get_template(template_file)
-    return template.render(nav=dashboard_nav, subsystem=subsystem)
+    return template.render(
+        nav=dashboard_nav, 
+        subsystem=subsystem, 
+        data=get_subsystem_data(subsystem)
+    )
+
+def get_subsystem_data(subsystem):
+    if subsystem == 'users':
+        data = users.read()
+        return data
+    else:
+        return None
 
 if __name__ == '__main__':
     run(host='localhost', port=5000, debug=True)

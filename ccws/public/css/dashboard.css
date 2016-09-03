@@ -112,3 +112,7 @@ body {
 .invisible2 {
   display: none;
 }
+
+tbody tr {
+  cursor: pointer;
+}
